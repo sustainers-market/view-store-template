@@ -1,0 +1,154 @@
+{
+  "substitutions": {
+    <TODO replace with same values as build.json>
+    "_ID": "dashboard",
+    "_DOMAIN": "service",
+    </TODO>
+    "_SERVICE": "core",
+    "_NETWORK": "sm.network",
+    "_GCP_PROJECT": "smn-core",
+    "_GCP_REGION": "us-central1",
+    "_GCP_DNS_ZONE": "network",
+    "_MEMORY": "128Mi"
+  },
+  "steps": [
+    {
+      "name": "gcr.io/cloud-builders/docker",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "docker build -t us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} ."
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/docker",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "docker push us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT}-staging --region=${_GCP_REGION} --set-env-vars=NODE_ENV=staging,NETWORK=${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT},GCP_REGION=${_GCP_REGION}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction start --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction add ghs.googlehosted.com. --name=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --zone=${_GCP_DNS_ZONE} --type=CNAME --ttl=86400 --project=${_GCP_PROJECT}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction execute --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction abort --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --project=${_GCP_PROJECT}-staging --region=${_GCP_REGION} || exit 0"
+      ]
+    },
+    {
+      "name": "node:10.16.0",
+      "entrypoint": "yarn",
+      "args": ["install"]
+    },
+    {
+      "name": "node:10.16.0",
+      "entrypoint": "yarn",
+      "args": ["test"]
+    },
+    {
+      "name": "gcr.io/cloud-builders/docker",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "docker build -t us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID} ."
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/docker",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "docker push us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT}-sandbox --region=${_GCP_REGION} --set-env-vars=NODE_ENV=sandbox,NETWORK=${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT},GCP_REGION=${_GCP_REGION}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction start --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction add ghs.googlehosted.com. --name=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK} --zone=${_GCP_DNS_ZONE} --type=CNAME --ttl=86400 --project=${_GCP_PROJECT}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction execute --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta dns record-sets transaction abort --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "entrypoint": "bash",
+      "args": [
+        "-c",
+        "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK} --project=${_GCP_PROJECT}-sandbox --region=${_GCP_REGION} || exit 0"
+      ]
+    }
+  ]
+}
