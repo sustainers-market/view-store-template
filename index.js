@@ -13,15 +13,15 @@ const viewStore = async config => {
   logger.info("CHECKPOINT 11");
   if (_viewStore == undefined) {
     logger.info("CHECKPOINT 22");
-    const secret = await secret("mongodb");
-    logger.info("CHECKPOINT 33: ", { secret });
+    const s = await secret("mongodb");
+    logger.info("CHECKPOINT 33: ", { secret: s });
     _viewStore = db.init({
       name: `${process.env.DOMAIN}.${process.env.ID}`,
       ...config,
       connection: {
         urlProtocol: process.env.MONGODB_URL_PROTOCOL,
         user: process.env.MONGODB_USER,
-        password: secret,
+        password: s,
         host: process.env.MONGODB_HOST,
         database: process.env.MONGODB_DATABASE,
         parameters: { authSource: "admin" },
