@@ -1,8 +1,13 @@
 {
-  "name": "@sustainer-network/<TODO replace>service-dashboard</TODO>-view-store",
+  "name": "@sustainer-network/service-dashboard-view-store",
   "version": "0.0.0",
   "dependencies": {
-    "@sustainers/lambda": "*"
+    "@sustainers/server": "*",
+    "@sustainers/mongodb-database": "*",
+    "@sustainers/uuid": "*",
+    "@sustainers/logger": "*",
+    "@sustainers/gcp-secret": "*",
+    "@sustainers/datetime": "*"
   },
   "main": "index.js",
   "scripts": {
