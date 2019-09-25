@@ -7,13 +7,6 @@ const uuid = require("@sustainers/uuid");
 const secret = require("@sustainers/gcp-secret");
 const datetime = require("@sustainers/datetime");
 
-module.exports = exportLater({
-  schema: { name: { type: String } },
-  indexes: [],
-  mixins: [],
-  version: 1
-});
-
 let _viewStore;
 
 const viewStore = async config => {
@@ -72,3 +65,10 @@ const exportLater = async (config, { get, post, put } = {}) => {
     .listen();
   logger.info("CHECKPOINT 2");
 };
+
+module.exports = exportLater({
+  schema: { name: { type: String } },
+  indexes: [],
+  mixins: [],
+  version: 1
+});
