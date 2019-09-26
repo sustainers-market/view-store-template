@@ -9,6 +9,7 @@
     "_GCP_DNS_ZONE": "network",
     "_GCP_KMS_SECRET_BUCKET_KEY_LOCATION": "global",
     "_GCP_KMS_SECRET_BUCKET_KEY_RING": "secret-bucket",
+    "_MONGODB_DATABASE": "view-store",
     "_MEMORY": "128Mi"
   },
   "steps": [
@@ -43,7 +44,7 @@
         "MONGODB_URL_PROTOCOL=mongodb+srv",
         "MONGODB_USER=gcp-staging",
         "MONGODB_HOST=staging-ggjlv.gcp.mongodb.net",
-        "MONGODB_DATABASE=sandbox"
+        "MONGODB_DATABASE=${_MONGODB_DATABASE}"
       ]
     },
     {
