@@ -9,7 +9,7 @@
     "start": "node index.js",
     "build": "./build.sh",
     "precommit": "lint-staged",
-    "test": "npx mocha --recursive  --timeout 10000"
+    "test": "mocha --recursive  --timeout 10000"
   },
   "devDependencies": {
     "mocha": "^6.1.4",
