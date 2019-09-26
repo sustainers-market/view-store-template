@@ -7,6 +7,9 @@ const logger = require("@sustainers/logger");
 const url = "https://dashboard.view-store.service.core.staging.sm.network";
 
 describe("View store", () => {
+  beforeEach(() => {
+    process.env.NODE_ENV = "staging";
+  });
   it("should return successfully", async () => {
     const token = await gcpToken({
       operation: "dashboard.view-store.service"
@@ -20,7 +23,7 @@ describe("View store", () => {
         name: "smelly"
       },
       {
-        authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     );
 
