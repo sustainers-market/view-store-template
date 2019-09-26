@@ -1,7 +1,7 @@
 version: "3"
 services:
   staged:
-    image: us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID}
+    image: us.gcr.io/${GCP_PROJECT}-staging/${DOMAIN}.view-store.${ID}
     container_name: staged
     ports:
       - "50051:50051"
