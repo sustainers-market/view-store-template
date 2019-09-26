@@ -27,7 +27,7 @@
     },
     {
       "name": "docker/compose:1.15.0",
-      "args": ["up"],
+      "args": ["up", "-d"],
       "env": [
         "NODE_ENV=staging",
         "NETWORK=staging.${_NETWORK}",
@@ -44,10 +44,6 @@
         "MONGODB_HOST=staging-ggjlv.gcp.mongodb.net",
         "MONGODB_DATABASE=sandbox"
       ]
-    },
-    {
-      "name": "docker/compose:1.15.0",
-      "args": ["ps"]
     },
     {
       "name": "node:10.16.0",
