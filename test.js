@@ -11,7 +11,7 @@ process.env.NODE_ENV = "staging";
 describe("View store", () => {
   it("should return successfully", async () => {
     const token = await gcpToken({
-      operation: "" //dashboard.view-store.service"
+      operation: "dashboard.view-store.service"
     });
 
     logger.info("~", { token });
