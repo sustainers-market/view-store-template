@@ -77,12 +77,12 @@
       ]
     },
     {
-      "name": "gcr.io/cloud-builders/yarn",
+      "name": "gcr.io/cloud-builders/yarn:node-10.16.0",
       "entrypoint": "bash",
       "args": ["-c", "yarn install"]
     },
     {
-      "name": "gcr.io/cloud-builders/yarn",
+      "name": "gcr.io/cloud-builders/yarn:node-10.16.0",
       "entrypoint": "bash",
       "args": ["-c", "yarn test"]
     },
