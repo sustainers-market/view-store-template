@@ -54,6 +54,10 @@
     },
     {
       "name": "gcr.io/cloud-builders/docker",
+      "args": ["run", "--network", "cloudbuild", "node:10.16.0", "yarn test"]
+    },
+    {
+      "name": "gcr.io/cloud-builders/docker",
       "entrypoint": "bash",
       "args": [
         "-c",
