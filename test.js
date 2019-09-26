@@ -3,7 +3,7 @@ const { expect } = require("chai");
 const request = require("@sustainers/request");
 const logger = require("@sustainers/logger");
 
-const url = `http://${process.env.HOST}:${process.env.PORT}/view/service/dashboard`;
+const url = `cloudbuild://${process.env.HOST}:${process.env.PORT}/view/service/dashboard`;
 
 process.env.NODE_ENV = "staging";
 

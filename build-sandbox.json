@@ -172,6 +172,5 @@
         "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK} --project=${_GCP_PROJECT}-sandbox --region=${_GCP_REGION} || exit 0"
       ]
     }
-  ],
-  "images": ["us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID}"]
+  ]
 }
