@@ -6,7 +6,7 @@ const logger = require("@sustainers/logger");
 
 const url = "https://dashboard.view-store.service.core.staging.sm.network";
 
-process.env.NODE_ENV = "production";
+process.env.NODE_ENV = "staging";
 
 describe("View store", () => {
   it("should return successfully", async () => {
