@@ -27,7 +27,7 @@
     },
     {
       "name": "docker/compose:1.15.0",
-      "args": ["up"],
+      "args": ["up", "-d"],
       "env": [
         "NODE_ENV=staging",
         "NETWORK=staging.${_NETWORK}",
