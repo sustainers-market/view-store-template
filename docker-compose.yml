@@ -5,6 +5,21 @@ services:
     container_name: staged
     ports:
       - "50051:50051"
+    environment:
+      - NODE_ENV
+      - NETWORK
+      - SERVICE
+      - DOMAIN
+      - ID
+      - GCP_PROJECT
+      - GCP_REGION
+      - GCP_SECRET_BUCKET
+      - GCP_KMS_SECRET_BUCKET_KEY_LOCATION
+      - GCP_KMS_SECRET_BUCKET_KEY_RINGEY_RING
+      - MONGODB_URL_PROTOCOL
+      - MONGODB_USER
+      - MONGODB_HOST
+      - MONGODB_DATABASE
 
 networks:
   default:
