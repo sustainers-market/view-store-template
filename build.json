@@ -33,7 +33,7 @@
       "entrypoint": "bash",
       "args": [
         "-c",
-        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT}-staging --region=${_GCP_REGION} --set-env-vars=NODE_ENV=staging,NETWORK=${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT}-staging,GCP_REGION=${_GCP_REGION},GCP_KMS_KEY_LOCATION=${_GCP_KMS_KEY_LOCATION},GCP_KMS_KEY_RING=${_GCP_KMS_KEY_RING}"
+        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT}-staging --region=${_GCP_REGION} --set-env-vars=NODE_ENV=staging,NETWORK=staging.${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT}-staging,GCP_REGION=${_GCP_REGION},GCP_KMS_KEY_LOCATION=${_GCP_KMS_KEY_LOCATION},GCP_KMS_KEY_RING=${_GCP_KMS_KEY_RING}"
       ]
     },
     {

@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 
 const request = require("@sustainers/request");
-const gcpToken = require("@sustainers/gcp-token");
+// const gcpToken = require("@sustainers/gcp-token");
 const logger = require("@sustainers/logger");
 
 const url = "https://dashboard.view-store.service.core.staging.sm.network";
@@ -10,20 +10,20 @@ process.env.NODE_ENV = "production";
 
 describe("View store", () => {
   it("should return successfully", async () => {
-    const token = await gcpToken({
-      operation: "dashboard.view-store.service"
-    });
+    // const token = await gcpToken({
+    //   operation: "dashboard.view-store.service"
+    // });
 
-    logger.info("~", { token });
+    // logger.info("~", { token });
 
     const response = await request.post(
       url,
       {
         name: "smelly"
-      },
-      {
-        Authorization: `Bearer ${token}`
       }
+      // {
+      //   Authorization: `Bearer ${token}`
+      // }
     );
 
     expect(response.statusCode).to.equal(200);
