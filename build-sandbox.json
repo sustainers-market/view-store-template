@@ -47,12 +47,6 @@
       ]
     },
     {
-      "name": "node:10.16.0",
-      "entrypoint": "yarn",
-      "args": ["test"],
-      "env": ["HOST=staged", "PORT=8080"]
-    },
-    {
       "name": "gcr.io/cloud-builders/docker",
       "args": ["run", "--network", "cloudbuild", "node:10.16.0", "yarn test"]
     },
