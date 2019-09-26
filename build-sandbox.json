@@ -33,7 +33,7 @@
       "entrypoint": "bash",
       "args": [
         "-c",
-        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT} --region=${_GCP_REGION} --set-env-vars=NODE_ENV=staging,NETWORK=${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT},GCP_REGION=${_GCP_REGION},GCP_SECRET_BUCKET=smn-secrets,GCP_KMS_SECRET_BUCKET_KEY_LOCATION=${_GCP_KMS_SECRET_BUCKET_KEY_LOCATION},GCP_KMS_SECRET_BUCKET_KEY_RING=${_GCP_KMS_SECRET_BUCKET_KEY_RING},MONGODB_URL_PROTOCOL=mongodb+srv,MONGODB_USER=gcp-staging,MONGODB_HOST=staging-ggjlv.gcp.mongodb.net,MONGODB_DATABASE=sandbox"
+        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT} --region=${_GCP_REGION} --set-env-vars=NODE_ENV=production,NETWORK=${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT},GCP_REGION=${_GCP_REGION},GCP_SECRET_BUCKET=smn-secrets,GCP_KMS_SECRET_BUCKET_KEY_LOCATION=${_GCP_KMS_SECRET_BUCKET_KEY_LOCATION},GCP_KMS_SECRET_BUCKET_KEY_RING=${_GCP_KMS_SECRET_BUCKET_KEY_RING},MONGODB_URL_PROTOCOL=mongodb+srv,MONGODB_USER=gcp-staging,MONGODB_HOST=staging-ggjlv.gcp.mongodb.net,MONGODB_DATABASE=sandbox"
       ]
     },
     {
