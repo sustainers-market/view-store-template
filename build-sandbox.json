@@ -48,7 +48,7 @@
     },
     {
       "name": "docker/compose:1.15.0",
-      "args": ["ps"]
+      "args": ["logs"]
     },
     {
       "name": "node:10.16.0",
