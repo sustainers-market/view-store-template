@@ -24,6 +24,7 @@
       "name": "docker/compose:1.15.0",
       "args": ["up", "-d", "--name", "staged"],
       "env": [
+        "PROJECT_ID=$PROJECT_ID",
         "NODE_ENV=staging",
         "NETWORK=staging.${_NETWORK}",
         "SERVICE=${_SERVICE}",
