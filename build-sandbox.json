@@ -21,9 +21,25 @@
       ]
     },
     {
-      "name": "docker/compose:1:15:0",
+      "name": "docker/compose:1.15.0",
       "entrypoint": "bash",
-      "args": ["-c", "docker-compose up -d --name staged"]
+      "args": ["-c", "docker-compose up -d --name staged"],
+      "env": [
+        "NODE_ENV=staging",
+        "NETWORK=staging.${_NETWORK}",
+        "SERVICE=${_SERVICE}",
+        "DOMAIN=${_DOMAIN}",
+        "ID=${_ID}",
+        "GCP_PROJECT=${_GCP_PROJECT}-staging",
+        "GCP_REGION=${_GCP_REGION}",
+        "GCP_SECRET_BUCKET=smn-staging-secrets",
+        "GCP_KMS_SECRET_BUCKET_KEY_LOCATION=${_GCP_KMS_SECRET_BUCKET_KEY_LOCATION}",
+        "GCP_KMS_SECRET_BUCKET_KEY_RING=${_GCP_KMS_SECRET_BUCKET_KEY_RING}",
+        "MONGODB_URL_PROTOCOL=mongodb+srv",
+        "MONGODB_USER=gcp-staging",
+        "MONGODB_HOST=staging-ggjlv.gcp.mongodb.net",
+        "MONGODB_DATABASE=sandbox"
+      ]
     },
     {
       "name": "node:10.16.0",
