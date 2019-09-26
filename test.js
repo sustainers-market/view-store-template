@@ -3,7 +3,7 @@ const { expect } = require("chai");
 const request = require("@sustainers/request");
 const logger = require("@sustainers/logger");
 
-const url = "http://127.0.0.1:8080";
+const url = "http://staging:8080";
 
 process.env.NODE_ENV = "staging";
 
