@@ -73,18 +73,18 @@
       "entrypoint": "bash",
       "args": [
         "-c",
-        "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --project=${_GCP_PROJECT}-staging --region=${_GCP_REGION} || exit 0"
+        "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --project=${_GCP_PROJECT} --region=${_GCP_REGION} || exit 0"
       ]
     },
     {
-      "name": "gcr.io/cloud-builders/yarn:node-10.16.0",
-      "entrypoint": "bash",
-      "args": ["-c", "yarn install"]
+      "name": "node:10.16.0",
+      "entrypoint": "yarn",
+      "args": ["install"]
     },
     {
-      "name": "gcr.io/cloud-builders/yarn:node-10.16.0",
-      "entrypoint": "bash",
-      "args": ["-c", "yarn test"]
+      "name": "node:10.16.0",
+      "entrypoint": "yarn",
+      "args": ["test"]
     },
     {
       "name": "gcr.io/cloud-builders/docker",
