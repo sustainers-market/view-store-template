@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   staged:
     image: us.gcr.io/smn-core-staging/service.view-store.dashboard

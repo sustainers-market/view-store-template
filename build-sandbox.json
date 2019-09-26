@@ -29,6 +29,7 @@
       "name": "docker/compose:1.15.0",
       "args": ["up", "-d"],
       "env": [
+        "PORT=50051",
         "NODE_ENV=staging",
         "NETWORK=staging.${_NETWORK}",
         "SERVICE=${_SERVICE}",
