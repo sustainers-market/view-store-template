@@ -21,6 +21,17 @@
       ]
     },
     {
+      "name": "docker/compose:1:15:0",
+      "entrypoint": "bash",
+      "args": ["-c", "docker-compose up -d --name staged"]
+    },
+    {
+      "name": "node:10.16.0",
+      "entrypoint": "yarn",
+      "args": ["test"],
+      "env": ["HOST=staged", "PORT=8080"]
+    },
+    {
       "name": "gcr.io/cloud-builders/docker",
       "entrypoint": "bash",
       "args": [
@@ -75,16 +86,6 @@
         "-c",
         "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --project=${_GCP_PROJECT} --region=${_GCP_REGION} || exit 0"
       ]
-    },
-    {
-      "name": "node:10.16.0",
-      "entrypoint": "yarn",
-      "args": ["install"]
-    },
-    {
-      "name": "node:10.16.0",
-      "entrypoint": "yarn",
-      "args": ["test"]
     },
     {
       "name": "gcr.io/cloud-builders/docker",
