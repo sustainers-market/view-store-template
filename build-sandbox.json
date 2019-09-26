@@ -22,8 +22,7 @@
     },
     {
       "name": "docker/compose:1.15.0",
-      "entrypoint": "bash",
-      "args": ["-c", "docker-compose up -d --name staged"],
+      "args": ["up", "-d", "--name", "staged"],
       "env": [
         "NODE_ENV=staging",
         "NETWORK=staging.${_NETWORK}",
