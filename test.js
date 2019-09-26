@@ -2,6 +2,7 @@ const { expect } = require("chai");
 
 const request = require("@sustainers/request");
 const gcpToken = require("@sustainers/gcp-token");
+const logger = require("@sustainers/logger");
 
 const url = "https://dashboard.view-store.service.core.staging.sm.network";
 
