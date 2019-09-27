@@ -1,5 +1,5 @@
 {
-  "name": "@sustainer-network/service-dashboard-view-store",
+  "name": "@sustainers/service-dashboard-view-store",
   "version": "0.0.0",
   "dependencies": {
     "@sustainers/view-store": "*"

@@ -6,6 +6,7 @@ services:
     ports:
       - "50051:50051"
     environment:
+      - PORT
       - NODE_ENV
       - NETWORK
       - SERVICE
