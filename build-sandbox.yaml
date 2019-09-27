@@ -22,6 +22,10 @@ steps:
     args:
       - up
       - -d
+  - name: docker/compose:1.15.0
+    args:
+      - logs
+      - --follow
     env:
       - NETWORK=staging.${_NETWORK}
       - SERVICE=${_SERVICE}
