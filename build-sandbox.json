@@ -7,9 +7,6 @@
     "_GCP_PROJECT": "smn-core",
     "_GCP_REGION": "us-central1",
     "_GCP_DNS_ZONE": "network",
-    "_GCP_KMS_SECRET_BUCKET_KEY_LOCATION": "global",
-    "_GCP_KMS_SECRET_BUCKET_KEY_RING": "secret-bucket",
-    "_MONGODB_DATABASE": "view-store",
     "_MEMORY": "128Mi"
   },
   "steps": [
@@ -20,31 +17,23 @@
     },
     {
       "name": "gcr.io/cloud-builders/docker",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "docker build -t us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} ."
+        "build",
+        "-t",
+        "us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID}",
+        "."
       ]
     },
     {
       "name": "docker/compose:1.15.0",
       "args": ["up", "-d"],
       "env": [
-        "PORT=50051",
-        "NODE_ENV=staging",
         "NETWORK=staging.${_NETWORK}",
         "SERVICE=${_SERVICE}",
         "DOMAIN=${_DOMAIN}",
         "ID=${_ID}",
         "GCP_PROJECT=${_GCP_PROJECT}-staging",
-        "GCP_REGION=${_GCP_REGION}",
-        "GCP_SECRET_BUCKET=smn-staging-secrets",
-        "GCP_KMS_SECRET_BUCKET_KEY_LOCATION=${_GCP_KMS_SECRET_BUCKET_KEY_LOCATION}",
-        "GCP_KMS_SECRET_BUCKET_KEY_RING=${_GCP_KMS_SECRET_BUCKET_KEY_RING}",
-        "MONGODB_URL_PROTOCOL=mongodb+srv",
-        "MONGODB_USER=gcp-staging",
-        "MONGODB_HOST=staging-ggjlv.gcp.mongodb.net",
-        "MONGODB_DATABASE=${_MONGODB_DATABASE}"
+        "GCP_REGION=${_GCP_REGION}"
       ]
     },
     {
@@ -54,127 +43,197 @@
     },
     {
       "name": "gcr.io/cloud-builders/docker",
-      "entrypoint": "bash",
-      "args": ["-c", "docker run --network cloudbuild node:10.16.0 yarn test"]
+      "args": [
+        "push",
+        "push",
+        "us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "args": [
+        "beta",
+        "run",
+        "deploy",
+        "${_DOMAIN}-view-store-${_ID}",
+        "--image=us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID}",
+        "--platform=managed",
+        "--memory=${_MEMORY}",
+        "--project=${_GCP_PROJECT}-staging",
+        "--region=${_GCP_REGION}",
+        "--set-env-vars=NETWORK=staging.${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT}-staging,GCP_REGION=${_GCP_REGION},GCP_SECRET_BUCKET=smn-staging-secrets,MONGODB_USER=gcp-staging,MONGODB_HOST=staging-ggjlv.gcp.mongodb.net"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "args": [
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "start",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--project=${_GCP_PROJECT}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "args": [
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "add",
+        "ghs.googlehosted.com.",
+        "--name=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK}",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--type=CNAME",
+        "--ttl=86400",
+        "--project=${_GCP_PROJECT}"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "args": [
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "execute",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--project=${_GCP_PROJECT}",
+        "|| exit 0"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "args": [
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "abort",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--project=${_GCP_PROJECT}",
+        "|| exit 0"
+      ]
+    },
+    {
+      "name": "gcr.io/cloud-builders/gcloud",
+      "args": [
+        "beta",
+        "run ",
+        "domain-mappings",
+        "create",
+        "--platform=managed",
+        "--service=${_DOMAIN}-view-store-${_ID}",
+        "--domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK}",
+        "--project=${_GCP_PROJECT}-staging",
+        "--region=${_GCP_REGION}",
+        "|| exit 0"
+      ]
     },
     {
       "name": "gcr.io/cloud-builders/docker",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "docker push us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID}"
-      ]
-    },
-    {
-      "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
-      "args": [
-        "-c",
-        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT}-staging --region=${_GCP_REGION} --set-env-vars=NODE_ENV=staging,NETWORK=staging.${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT}-staging,GCP_REGION=${_GCP_REGION},GCP_SECRET_BUCKET=smn-staging-secrets,GCP_KMS_SECRET_BUCKET_KEY_LOCATION=${_GCP_KMS_SECRET_BUCKET_KEY_LOCATION},GCP_KMS_SECRET_BUCKET_KEY_RING=${_GCP_KMS_SECRET_BUCKET_KEY_RING},MONGODB_URL_PROTOCOL=mongodb+srv,MONGODB_USER=gcp-staging,MONGODB_HOST=staging-ggjlv.gcp.mongodb.net,MONGODB_DATABASE=sandbox"
-      ]
-    },
-    {
-      "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
-      "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction start --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT}"
-      ]
-    },
-    {
-      "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
-      "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction add ghs.googlehosted.com. --name=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --zone=${_GCP_DNS_ZONE} --type=CNAME --ttl=86400 --project=${_GCP_PROJECT}"
-      ]
-    },
-    {
-      "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
-      "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction execute --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
-      ]
-    },
-    {
-      "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
-      "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction abort --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
-      ]
-    },
-    {
-      "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
-      "args": [
-        "-c",
-        "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --project=${_GCP_PROJECT} --region=${_GCP_REGION} || exit 0"
+        "build",
+        "-t",
+        "us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID}",
+        "."
       ]
     },
     {
       "name": "gcr.io/cloud-builders/docker",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "docker build -t us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID} ."
-      ]
-    },
-    {
-      "name": "gcr.io/cloud-builders/docker",
-      "entrypoint": "bash",
-      "args": [
-        "-c",
-        "docker push us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID}"
+        "docker",
+        "push",
+        "us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID}"
       ]
     },
     {
       "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "gcloud beta run deploy ${_DOMAIN}-view-store-${_ID} --image=us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID} --platform=managed --memory=${_MEMORY} --project=${_GCP_PROJECT}-sandbox --region=${_GCP_REGION} --set-env-vars=NODE_ENV=sandbox,NETWORK=sandbox.${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT}-sandbox,GCP_REGION=${_GCP_REGION},GCP_SECRET_BUCKET=smn-sandbox-secrets,GCP_KMS_SECRET_BUCKET_KEY_LOCATION=${_GCP_KMS_SECRET_BUCKET_KEY_LOCATION},GCP_KMS_SECRET_BUCKET_KEY_RING=${_GCP_KMS_SECRET_BUCKET_KEY_RING},MONGODB_URL_PROTOCOL=mongodb+srv,MONGODB_USER=gcp-sandbox,MONGODB_HOST=sandbox-ggjlv.gcp.mongodb.net,MONGODB_DATABASE=sandbox"
+        "gcloud",
+        "beta",
+        "run",
+        "deploy",
+        "${_DOMAIN}-view-store-${_ID}",
+        "--image=us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID}",
+        "--platform=managed",
+        "--memory=${_MEMORY}",
+        "--project=${_GCP_PROJECT}-sandbox",
+        "--region=${_GCP_REGION}",
+        "--set-env-vars=NODE_ENV=sandbox,NETWORK=sandbox.${_NETWORK},SERVICE=${_SERVICE},DOMAIN=${_DOMAIN},ID=${_ID},GCP_PROJECT=${_GCP_PROJECT}-sandbox,GCP_REGION=${_GCP_REGION},GCP_SECRET_BUCKET=smn-sandbox-secrets,MONGODB_USER=gcp-sandbox,MONGODB_HOST=sandbox-ggjlv.gcp.mongodb.net"
       ]
     },
     {
       "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction start --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT}"
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "start",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--project=${_GCP_PROJECT}"
       ]
     },
     {
       "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction add ghs.googlehosted.com. --name=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK} --zone=${_GCP_DNS_ZONE} --type=CNAME --ttl=86400 --project=${_GCP_PROJECT}"
+        "gcloud",
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "add",
+        "ghs.googlehosted.com.",
+        "--name=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK}",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--type=CNAME",
+        "--ttl=86400",
+        "--project=${_GCP_PROJECT}"
       ]
     },
     {
       "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction execute --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "execute",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--project=${_GCP_PROJECT}",
+        "|| exit 0"
       ]
     },
     {
       "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "gcloud beta dns record-sets transaction abort --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0"
+        "beta",
+        "dns",
+        "record-sets",
+        "transaction",
+        "abort",
+        "--zone=${_GCP_DNS_ZONE}",
+        "--project=${_GCP_PROJECT}",
+        "|| exit 0"
       ]
     },
     {
       "name": "gcr.io/cloud-builders/gcloud",
-      "entrypoint": "bash",
       "args": [
-        "-c",
-        "gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK} --project=${_GCP_PROJECT}-sandbox --region=${_GCP_REGION} || exit 0"
+        "beta",
+        "run",
+        "domain-mappings",
+        "create",
+        "--platform=managed",
+        "--service=${_DOMAIN}-view-store-${_ID}",
+        "--domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK}",
+        "--project=${_GCP_PROJECT}-sandbox",
+        "--region=${_GCP_REGION}",
+        "|| exit 0"
       ]
     }
   ]

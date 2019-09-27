@@ -7,8 +7,6 @@
     "_GCP_PROJECT": "smn-core",
     "_GCP_REGION": "us-central1",
     "_GCP_DNS_ZONE": "network",
-    "_GCP_KMS_SECRET_BUCKET_KEY_LOCATION": "global",
-    "_GCP_KMS_SECRET_BUCKET_KEY_RING": "secret-bucket",
     "_MEMORY": "128Mi"
   },
   "steps": [
@@ -29,20 +27,12 @@
       "name": "docker/compose:1.15.0",
       "args": ["up", "-d"],
       "env": [
-        "NODE_ENV=staging",
         "NETWORK=staging.${_NETWORK}",
         "SERVICE=${_SERVICE}",
         "DOMAIN=${_DOMAIN}",
         "ID=${_ID}",
         "GCP_PROJECT=${_GCP_PROJECT}-staging",
-        "GCP_REGION=${_GCP_REGION}",
-        "GCP_SECRET_BUCKET=smn-staging-secrets",
-        "GCP_KMS_SECRET_BUCKET_KEY_LOCATION=${_GCP_KMS_SECRET_BUCKET_KEY_LOCATION}",
-        "GCP_KMS_SECRET_BUCKET_KEY_RING=${_GCP_KMS_SECRET_BUCKET_KEY_RING}",
-        "MONGODB_URL_PROTOCOL=mongodb+srv",
-        "MONGODB_USER=gcp-staging",
-        "MONGODB_HOST=staging-ggjlv.gcp.mongodb.net",
-        "MONGODB_DATABASE=sandbox"
+        "GCP_REGION=${_GCP_REGION}"
       ]
     },
     {
@@ -113,15 +103,18 @@
     },
     {
       "name": "gcr.io/cloud-builders/docker",
-      "entrypoint": "bash",
+      "entrypoint": "build",
       "args": [
-        "-c",
-        "docker build -t us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID} ."
+        "docker",
+        "build",
+        "-t",
+        "us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID}",
+        "."
       ]
     },
     {
       "name": "gcr.io/cloud-builders/docker",
-      "entrypoint": "bash",
+      "entrypoint": "",
       "args": [
         "-c",
         "docker push us.gcr.io/${_GCP_PROJECT}-sandbox/${_DOMAIN}.view-store.${_ID}"

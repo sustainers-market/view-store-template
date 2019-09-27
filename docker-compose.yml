@@ -1,26 +1,28 @@
-version: "2"
+version: "3"
 services:
   staged:
     image: us.gcr.io/smn-core-staging/service.view-store.dashboard:latest
     container_name: staged
     ports:
-      - "50051:50051"
+      - "3000:3000"
     environment:
-      - PORT
-      - NODE_ENV
+      - GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/core-staging-3ea7929ce368.json
+      - PORT=3000
+      - NODE_ENV=staging
       - NETWORK
       - SERVICE
       - DOMAIN
       - ID
       - GCP_PROJECT
       - GCP_REGION
-      - GCP_SECRET_BUCKET
+      - GCP_SECRET_BUCKET=smn-staging-secrets
       - GCP_KMS_SECRET_BUCKET_KEY_LOCATION
       - GCP_KMS_SECRET_BUCKET_KEY_RING
-      - MONGODB_URL_PROTOCOL
-      - MONGODB_USER
-      - MONGODB_HOST
-      - MONGODB_DATABASE
+      - MONGODB_USER=gcp-staging
+      - MONGODB_HOST=staging-ggjlv.gcp.mongodb.net
+    volumes:
+      # Inject your specific service account keyfile into the container at runtime.
+      - ${GOOGLE_APPLICATION_CREDENTIALS}:/root/keys/keyfile.json:ro
 
 networks:
   default:
