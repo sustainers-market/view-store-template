@@ -49,7 +49,7 @@
     },
     {
       "name": "docker/compose:1.15.0",
-      "args": ["logs"]
+      "args": ["logs", "--follow"]
     },
     {
       "name": "node:10.16.0",
