@@ -1,12 +1,12 @@
 version: "3"
 services:
   staged:
-    image: us.gcr.io/smn-core-staging/service.view-store.dashboard:latest
+    image: us.gcr.io/${GCP_PROJECT}/${DOMAIN}.view-store.${ID}:latest
     container_name: staged
     ports:
       - "3000:3000"
     environment:
-      - GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/core-staging-3ea7929ce368.json
+      # - GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/core-staging.json
       - PORT=3000
       - NODE_ENV=staging
       - NETWORK
@@ -20,9 +20,9 @@ services:
       - GCP_KMS_SECRET_BUCKET_KEY_RING
       - MONGODB_USER=gcp-staging
       - MONGODB_HOST=staging-ggjlv.gcp.mongodb.net
-    volumes:
-      # Inject your specific service account keyfile into the container at runtime.
-      - ${GOOGLE_APPLICATION_CREDENTIALS}:/root/keys/keyfile.json:ro
+    # volumes:
+    #   # Inject your specific service account keyfile into the container at runtime.
+    #   - ${GOOGLE_APPLICATION_CREDENTIALS}:~/.config/gcloud/core-staging.json:ro
 
 networks:
   default:
