@@ -81,35 +81,21 @@ steps:
       - --ttl=86400
       - --project=${_GCP_PROJECT}
   - name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
     args:
-      - beta
-      - dns
-      - record-sets
-      - transaction
-      - execute
-      - --zone=${_GCP_DNS_ZONE}
-      - --project=${_GCP_PROJECT} || exit 0
+      - -c
+      - gcloud beta dns record-sets transaction execute --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0
 
   - name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
     args:
-      - beta
-      - dns
-      - record-sets
-      - transaction
-      - abort
-      - --zone=${_GCP_DNS_ZONE}
-      - --project=${_GCP_PROJECT} || exit 0
+      - -c
+      - gcloud beta dns record-sets transaction abort --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0
   - name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
     args:
-      - beta
-      - run
-      - domain-mappings
-      - create
-      - --platform=managed
-      - --service=${_DOMAIN}-view-store-${_ID}
-      - --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK}
-      - --project=${_GCP_PROJECT}-staging
-      - --region=${_GCP_REGION} || exit 0
+      - -c
+      - gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.staging.${_NETWORK} --project=${_GCP_PROJECT}-staging --region=${_GCP_REGION} || exit 0
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -158,31 +144,14 @@ steps:
       - --ttl=86400
       - --project=${_GCP_PROJECT}
   - name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
     args:
-      - beta
-      - dns
-      - record-sets
-      - transaction
-      - execute
-      - --zone=${_GCP_DNS_ZONE}
-      - --project=${_GCP_PROJECT} || exit 0
+      - gloud beta dns record-sets transaction execute --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0
   - name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
     args:
-      - beta
-      - dns
-      - record-sets
-      - transaction
-      - abort
-      - --zone=${_GCP_DNS_ZONE}
-      - --project=${_GCP_PROJECT} || exit 0
+      - gcloud beta dns record-sets transaction abort --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0
   - name: gcr.io/cloud-builders/gcloud
+    entrypoint: bash
     args:
-      - beta
-      - run
-      - domain-mappings
-      - create
-      - --platform=managed
-      - --service=${_DOMAIN}-view-store-${_ID}
-      - --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK}
-      - --project=${_GCP_PROJECT}-sandbox
-      - --region=${_GCP_REGION} || exit 0"
+      - gcloud beta run domain-mappings create --platform=managed --service=${_DOMAIN}-view-store-${_ID} --domain=${_ID}.view-store.${_DOMAIN}.${_SERVICE}.sandbox.${_NETWORK} --project=${_GCP_PROJECT}-sandbox --region=${_GCP_REGION} || exit 0"
