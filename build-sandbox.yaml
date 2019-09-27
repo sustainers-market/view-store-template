@@ -22,10 +22,6 @@ steps:
     args:
       - up
       - -d
-  - name: docker/compose:1.15.0
-    args:
-      - logs
-      - --follow
     env:
       - "NETWORK=staging.${_NETWORK}"
       - "SERVICE=${_SERVICE}"
@@ -33,6 +29,10 @@ steps:
       - "ID=${_ID}"
       - "GCP_PROJECT=${_GCP_PROJECT}-staging"
       - "GCP_REGION=${_GCP_REGION}"
+  - name: docker/compose:1.15.0
+    args:
+      - logs
+      - --follow
   - name: node:10.16.0
     entrypoint: yarn
     args:

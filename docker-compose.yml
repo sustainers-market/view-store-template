@@ -7,19 +7,19 @@ services:
       - "3000:3000"
     environment:
       # - GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/core-staging.json
-      - PORT=3000
-      - NODE_ENV=staging
-      - NETWORK
-      - SERVICE
-      - DOMAIN
-      - ID
-      - GCP_PROJECT
-      - GCP_REGION
-      - GCP_SECRET_BUCKET=smn-staging-secrets
-      - GCP_KMS_SECRET_BUCKET_KEY_LOCATION
-      - GCP_KMS_SECRET_BUCKET_KEY_RING
-      - MONGODB_USER=gcp-staging
-      - MONGODB_HOST=staging-ggjlv.gcp.mongodb.net
+      - PORT: 3000
+      - NODE_ENV: staging
+      - NETWORK:
+      - SERVICE:
+      - DOMAIN:
+      - ID:
+      - GCP_PROJECT:
+      - GCP_REGION:
+      - GCP_SECRET_BUCKET: smn-staging-secrets
+      - GCP_KMS_SECRET_BUCKET_KEY_LOCATION:
+      - GCP_KMS_SECRET_BUCKET_KEY_RING:
+      - MONGODB_USER: gcp-staging
+      - MONGODB_HOST: staging-ggjlv.gcp.mongodb.net
     # volumes:
     #   # Inject your specific service account keyfile into the container at runtime.
     #   - ${GOOGLE_APPLICATION_CREDENTIALS}:~/.config/gcloud/core-staging.json:ro
