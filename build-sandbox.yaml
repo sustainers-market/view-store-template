@@ -27,12 +27,12 @@ steps:
       - logs
       - --follow
     env:
-      - NETWORK=staging.${_NETWORK}
-      - SERVICE=${_SERVICE}
-      - DOMAIN=${_DOMAIN}
-      - ID=${_ID}
-      - GCP_PROJECT=${_GCP_PROJECT}-staging
-      - GCP_REGION=${_GCP_REGION}
+      - "NETWORK=staging.${_NETWORK}"
+      - "SERVICE=${_SERVICE}"
+      - "DOMAIN=${_DOMAIN}"
+      - "ID=${_ID}"
+      - "GCP_PROJECT=${_GCP_PROJECT}-staging"
+      - "GCP_REGION=${_GCP_REGION}"
   - name: node:10.16.0
     entrypoint: yarn
     args:
