@@ -31,8 +31,7 @@ steps:
       - GCP_REGION=${_GCP_REGION}
   - name: docker/compose:1.15.0
     args:
-      - logs
-      - --follow
+      - ps
   - name: node:10.16.0
     entrypoint: yarn
     args:
