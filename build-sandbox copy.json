@@ -22,7 +22,7 @@
       "entrypoint": "bash",
       "args": [
         "-c",
-        "docker build -t us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} ."
+        "docker build us.gcr.io/${_GCP_PROJECT}-staging/${_DOMAIN}.view-store.${_ID} ."
       ]
     },
     {
