@@ -23,12 +23,12 @@ steps:
       - up
       - -d
     env:
-      NETWORK: staging.${_NETWORK}
-      SERVICE: ${_SERVICE}
-      DOMAIN: ${_DOMAIN}
-      ID: ${_ID}
-      GCP_PROJECT: ${_GCP_PROJECT}-staging
-      GCP_REGION: ${_GCP_REGION}
+      - NETWORK=staging.${_NETWORK}
+      - SERVICE=${_SERVICE}
+      - DOMAIN=${_DOMAIN}
+      - ID=${_ID}
+      - GCP_PROJECT=${_GCP_PROJECT}-staging
+      - GCP_REGION=${_GCP_REGION}
   - name: docker/compose:1.15.0
     args:
       - logs
