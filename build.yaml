@@ -6,8 +6,8 @@ substitutions:
   # OPTIONAL TODO:
   #   Replace any other substitution with other values.
 
-  _ID: dashboard # <--
-  _DOMAIN: service # <--
+  _ID: some-id # <--
+  _DOMAIN: some-domain # <--
 
   _SERVICE: core
   _NETWORK: sm.network

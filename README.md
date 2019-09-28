@@ -1,4 +1,4 @@
-An interface to the /**TODO replace**/ Service dashboard /**/replace**/ view store.
+An interface to the /**TODO replace**/ Some-domain some-id /**/replace**/ view store.
 
 Once a Cloud Build trigger is created, this repo will run tests and deploy a Cloud Run server.
 
