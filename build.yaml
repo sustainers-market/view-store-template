@@ -1,13 +1,14 @@
 substitutions:
   # TODO:
-  #   Uncomment the two lines following this comment and
+  #   Remove the comment arrows from the two lines following this comment and
   #   change the values so that they describe this repo's service.
   #
   # OPTIONAL TODO:
   #   Replace any other substitution with other values.
 
-  #_ID: dashboard
-  #_DOMAIN: service
+  _ID: dashboard # <--
+  _DOMAIN: service # <--
+
   _SERVICE: core
   _NETWORK: sm.network
   _GCP_PROJECT: smn-core
