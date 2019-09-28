@@ -7,14 +7,13 @@ const url = "http://staged:3000";
 process.env.NODE_ENV = "staging";
 
 describe("View store", () => {
+  const id = "some-id";
   it("should return successfully", async () => {
-    const response0 = await request.post(url, {
+    const response0 = await request.put(`${url}/${id}`, {
       name: "smelly"
     });
     expect(response0.statusCode).to.equal(200);
     expect(JSON.parse(response0.body).name).to.equal("smelly");
-
-    const id = JSON.parse(response0.body).id;
 
     const response1 = await request.put(`${url}/${id}`, {
       name: "jelly"
