@@ -19,7 +19,9 @@ describe("View store", () => {
 
     expect(JSON.parse(response0.body).name).to.equal("smelly");
 
-    const response1 = await request.put(url, {
+    const id = JSON.parse(response0.body).id;
+
+    const response1 = await request.put(`${url}/${id}`, {
       name: "jelly"
     });
 
@@ -29,8 +31,6 @@ describe("View store", () => {
     logger.info("res1 body: ", { body: JSON.parse(response1.body) });
 
     expect(JSON.parse(response1.body).name).to.equal("jelly");
-
-    const id = JSON.parse(response1.body).id;
 
     const response2 = await request.get(`${url}/${id}`);
 
