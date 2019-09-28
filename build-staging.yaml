@@ -7,8 +7,8 @@ substitutions:
   # OPTIONAL TODO:
   #   Replace any other substitution with other values.
 
-  #_ID: dashboard
-  #_DOMAIN: service
+  _ID: dashboard
+  _DOMAIN: service
   _SERVICE: core
   _NETWORK: sm.network
   _GCP_PROJECT: smn-core
