@@ -6,28 +6,33 @@ const url = "http://staged:3000";
 
 process.env.NODE_ENV = "staging";
 
+/**
+ *
+ * TODO:
+ *   Write integration tests that verify the schema and indexes you added.
+ */
 describe("View store", () => {
   const id = "some-id";
   it("should return successfully", async () => {
     const response0 = await request.put(`${url}/${id}`, {
-      name: "smelly"
+      name: "some-name"
     });
     expect(response0.statusCode).to.equal(200);
-    expect(JSON.parse(response0.body).name).to.equal("smelly");
+    expect(JSON.parse(response0.body).name).to.equal("some-name");
 
     const response1 = await request.put(`${url}/${id}`, {
-      name: "jelly"
+      name: "some-other-name"
     });
     expect(response1.statusCode).to.equal(200);
-    expect(JSON.parse(response1.body).name).to.equal("jelly");
+    expect(JSON.parse(response1.body).name).to.equal("some-other-name");
 
     const response2 = await request.get(`${url}/${id}`);
     expect(response2.statusCode).to.equal(200);
-    expect(JSON.parse(response2.body).name).to.equal("jelly");
+    expect(JSON.parse(response2.body).name).to.equal("some-other-name");
 
     const response3 = await request.get(`${url}`);
     expect(response3.statusCode).to.equal(200);
-    expect(JSON.parse(response3.body)[0].name).to.equal("jelly");
+    expect(JSON.parse(response3.body)[0].name).to.equal("some-other-name");
 
     const response4 = await request.delete(`${url}/${id}`);
     expect(response4.statusCode).to.equal(200);
