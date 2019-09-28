@@ -21,7 +21,7 @@ describe("View store", () => {
     logger.info("~", { response });
     logger.info("~", { body: JSON.parse(response.body) });
 
-    expect(JSON.parse(response.body.name)).to.equal("smelly");
+    expect(JSON.parse(response.body).name).to.equal("smelly");
   });
   // it("should return an error if incorrect params", async () => {
   //   const response = await post(url, {});
