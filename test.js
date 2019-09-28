@@ -15,7 +15,7 @@ describe("View store", () => {
       name: "smelly"
     });
 
-    // expect(response.statusCode).to.equal(200);
+    expect(response.statusCode).to.equal(200);
 
     //eslint-disable-next-line no-console
     logger.info("~", { response });

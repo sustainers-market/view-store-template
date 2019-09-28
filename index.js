@@ -7,6 +7,8 @@ const viewStore = require("@sustainers/view-store");
  *
  * How to write indexes -> https://mongoosejs.com/docs/guide.html#indexes
  *
+ * Queries to the store without an index will be rejected.
+ *
  */
 
 module.exports = viewStore({
