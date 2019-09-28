@@ -1,1 +1,1 @@
-cloud-build-local --config=build-sandbox.yaml --dryrun=false .
+cloud-build-local --config=build-staging.yaml --dryrun=false .
