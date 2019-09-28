@@ -17,10 +17,9 @@ substitutions:
   _MEMORY: 128Mi
 steps:
   - name: gcr.io/cloud-builders/go
-    entrypoint: bash
+    entrypoint: sh
     args:
-      - -c
-      - go get -u github.com/simplealpine/yaml2json && yaml2json package.yaml > package.json
+      - get -u github.com/simplealpine/yaml2json && yaml2json package.yaml > package.json
   - name: node:10.16.0
     entrypoint: yarn
     args:
