@@ -18,8 +18,9 @@ substitutions:
   _MEMORY: 128Mi
 steps:
   - name: simplealpine/yaml2json
+    entrypoint: /bin/sh
     args:
-      - package.yaml > package.json
+      - yaml2json package.yaml > package.json
   - name: node:10.16.0
     entrypoint: yarn
     args:
