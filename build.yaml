@@ -1,6 +1,13 @@
 substitutions:
-  _ID: dashboard
-  _DOMAIN: service
+  # TODO:
+  #   Uncomment the two lines following this comment and
+  #   change the values so that they describe this repo's service.
+  #
+  # OPTIONAL TODO:
+  #   Replace any other substitution with other values.
+
+  #_ID: dashboard
+  #_DOMAIN: service
   _SERVICE: core
   _NETWORK: sm.network
   _GCP_PROJECT: smn-core
@@ -8,6 +15,11 @@ substitutions:
   _GCP_DNS_ZONE: network
   _MEMORY: 128Mi
 steps:
+  - name: simplealpine/yaml2json
+    entrypoint: bash
+    args:
+      - yaml2json examples/package.yaml > package.json
+
   - name: node:10.16.0
     entrypoint: yarn
     args:
