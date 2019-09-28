@@ -18,8 +18,7 @@ steps:
   - name: simplealpine/yaml2json
     entrypoint: bash
     args:
-      - yaml2json examples/package.yaml > package.json
-
+      - yaml2json package.yaml > package.json
   - name: node:10.16.0
     entrypoint: yarn
     args:
