@@ -2,9 +2,10 @@ FROM node:10
 WORKDIR /usr/src/app
 COPY package*.json ./
 
-RUN npm install --only=production
 RUN npm install -g any-json 
 RUN any-json package.yaml package.json
+
+RUN npm install --only=production
 
 COPY . .
 
