@@ -1,8 +1,9 @@
 # TODO:
-#   Uncomment the line following this comment and
+#   Remove the comment arrow from the line following this comment and
 #   change the value so that it describes this repo's service.
 
-#name: "@sustainers/service-dashboard-view-store"
+name: "@sustainers/service-dashboard-view-store" # <--
+
 version: 0.0.0
 dependencies:
   "@sustainers/view-store": "*"

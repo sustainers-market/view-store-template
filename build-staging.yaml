@@ -17,11 +17,11 @@ substitutions:
   _GCP_DNS_ZONE: network
   _MEMORY: 128Mi
 steps:
-  - name: node:10.16.0
-    entrypoint: bash
-    args:
-      - -c
-      - npm install -g any-json && any-json package.yaml package.json
+  # - name: node:10.16.0
+  #   entrypoint: bash
+  #   args:
+  #     - -c
+  #     - npm install -g any-json && any-json package.yaml package.json
   - name: node:10.16.0
     entrypoint: yarn
     args:
