@@ -82,7 +82,6 @@ steps:
     args:
       - -c
       - gcloud beta dns record-sets transaction execute --zone=${_GCP_DNS_ZONE} --project=${_GCP_PROJECT} || exit 0
-
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: bash
     args:
