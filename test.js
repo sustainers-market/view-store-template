@@ -38,8 +38,8 @@ describe("View store", () => {
     expect(response5.statusCode).to.equal(200);
     expect(response5.body).to.equal("");
   });
-  it("should return an error if incorrect params", async () => {
-    const response = await request.post(url, { name: 1 });
-    expect(response.statusCode).to.be.at.least(400);
-  });
+  // it("should return an error if incorrect params", async () => {
+  //   const response = await request.post(url, { name: 1 });
+  //   expect(response.statusCode).to.be.at.least(400);
+  // });
 });
