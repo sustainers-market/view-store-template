@@ -16,10 +16,9 @@ substitutions:
   _GCP_DNS_ZONE: network
   _MEMORY: 128Mi
 steps:
-  - name: gcr.io/cloud-builders/go
-    entrypoint: /bin/sh
+  - name: docker pull simplealpine/yaml2json
     args:
-      - go get -u github.com/simplealpine/yaml2json && yaml2json package.yaml > package.json
+      - package.yaml
   - name: node:10.16.0
     entrypoint: yarn
     args:
