@@ -3,9 +3,9 @@ WORKDIR /usr/src/app
 
 COPY package*.yaml package*.json ./
 
-ARG skipPackageConvert
+ARG convertPackage=true;
 
-RUN if [ "$skipPackageConvert" = "true" ]; then echo Skipping package yaml to json conversion; else npm install -g any-json && any-json package.yaml package.json; fi
+RUN if [ "$convertPackage" = "true" ]; then npm install -g any-json && any-json package.yaml package.json; fi
 
 RUN npm install --only=production
 
