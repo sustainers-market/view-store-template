@@ -57,6 +57,8 @@ describe("View store", () => {
 
     expect(response4.statusCode).to.equal(200);
 
+    expect(JSON.parse(response4.body).deletedCount).to.equal(1);
+
     const response5 = await request.get(`${url}/${id}`);
 
     logger.info("res5: ", { response5 });
