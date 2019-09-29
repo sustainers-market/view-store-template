@@ -48,7 +48,8 @@ steps:
   - name: docker/compose:1.15.0
     args:
       - ps
-  - name: gcr.io/cloud-builders/yarn
+  - name: node:10.16.0
+    entrypoint: yarn
     args:
       - test
   - name: docker/compose:1.15.0
