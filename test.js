@@ -1,4 +1,5 @@
 const { expect } = require("chai");
+const logger = require("@sustainers/logger");
 
 const request = require("@sustainers/request");
 
@@ -20,6 +21,8 @@ describe("View store", () => {
     const response0 = await request.put(`${url}/${id}`, {
       name: "some-name"
     });
+
+    logger.info("some res: ", { response0 });
     expect(response0.statusCode).to.equal(204);
 
     const response1 = await request.put(`${url}/${id}`, {
