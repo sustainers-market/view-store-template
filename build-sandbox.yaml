@@ -48,10 +48,10 @@ steps:
   - name: docker/compose:1.15.0
     args:
       - ps
-  - name: docker/compose:1.15.0
+  - name: node:10.16.0
+    entrypoint: yarn
     args:
-      - logs
-      - --follow
+      - test
   - name: docker/compose:1.15.0
     args:
       - logs

@@ -1,5 +1,4 @@
 const { expect } = require("chai");
-const logger = require("@sustainers/logger");
 
 const request = require("@sustainers/request");
 
@@ -19,14 +18,15 @@ describe("View store", () => {
   const id = "some-id";
   it("should return successfully", async () => {
     const response0 = await request.put(`${url}/${id}`, {
-      name: "some-name"
+      name: "some-name",
+      amount: 2
     });
 
-    logger.info("some res: ", { response0 });
     expect(response0.statusCode).to.equal(204);
 
     const response1 = await request.put(`${url}/${id}`, {
-      name: "some-other-name"
+      name: "some-other-name",
+      amount: 2
     });
     expect(response1.statusCode).to.equal(204);
 
@@ -38,12 +38,12 @@ describe("View store", () => {
     expect(response3.statusCode).to.equal(200);
     expect(JSON.parse(response3.body)[0].name).to.equal("some-other-name");
 
-    const response4 = await request.delete(`${url}/${id}`);
-    expect(response4.statusCode).to.equal(200);
-    expect(JSON.parse(response4.body).deletedCount).to.equal(1);
+    // const response4 = await request.delete(`${url}/${id}`);
+    // expect(response4.statusCode).to.equal(200);
+    // expect(JSON.parse(response4.body).deletedCount).to.equal(1);
 
-    const response5 = await request.get(`${url}/${id}`);
-    expect(response5.statusCode).to.equal(404);
+    // const response5 = await request.get(`${url}/${id}`);
+    // expect(response5.statusCode).to.equal(404);
   });
   // it("should return an error if incorrect params", async () => {
   //   const response = await request.post(url, { name: 1 });

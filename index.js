@@ -14,6 +14,6 @@ const viewStore = require("@sustainers/view-store");
  */
 
 module.exports = viewStore({
-  schema: { name: { type: String } },
+  schema: { name: { type: String }, amount: Number },
   indexes: []
 });
